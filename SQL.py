@@ -76,8 +76,8 @@ maakHoofdTabelAan()
 maakOndertitelTabelAan()
 
 voegFilmToe("Deadpool & Wolverine", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
-voegFilmToe("Deadpool & Wolverine", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
-voegFilmToe("Deadpool & Wolverine", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
-voegFilmToe("Deadpool & Wolverine", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
+voegFilmToe("Logan", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
+voegFilmToe("Iron Man", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
+voegFilmToe("Spiderman 3", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
 
 
