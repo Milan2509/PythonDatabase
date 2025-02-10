@@ -71,13 +71,49 @@ def voegFilmToe(titel:str, genre:str, studio:str, taal:str, lengte:str, trailer:
 
 #class
 
+class VraagFilmDataOp():
+    def vraagFilmIDsOp():
+        cursor.execute("SELECT filmID FROM tbl_films")
+        resultaat = cursor.fetchall()
+        return resultaat
+
+    def vraagFilmTitelOp(ID:int):
+        cursor.execute("SELECT titel FROM tbl_films WHERE filmID = ?", (ID))
+        resultaat = cursor.fetchall()
+        return resultaat
+
+    def vraagFilmGenreOp(ID:int):
+        cursor.execute("SELECT genre FROM tbl_films WHERE filmID = ?", (ID))
+        resultaat = cursor.fetchall()
+        return resultaat
+
+    def vraagFilmStudioOp(ID:int):
+        cursor.execute("SELECT studio FROM tbl_films WHERE filmID = ?", (ID))
+        resultaat = cursor.fetchall()
+        return resultaat
+
+    def vraagFilmTaalOp(ID:int):
+        cursor.execute("SELECT taal FROM tbl_films WHERE filmID = ?", (ID))
+        resultaat = cursor.fetchall()
+        return resultaat
+
+    def vraagFilmLengteOp(ID:int):
+        cursor.execute("SELECT lengte FROM tbl_films WHERE filmID = ?", (ID))
+        resultaat = cursor.fetchall()
+        return resultaat
+
+    def vraagFilmTrailerOp(ID:int):
+        cursor.execute("SELECT trailer FROM tbl_films WHERE filmID = ?", (ID))
+        resultaat = cursor.fetchall()
+        return resultaat
+
+def voegAlleFilmsToe():
+    voegFilmToe("Deadpool & Wolverine", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
+    voegFilmToe("Logan", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
+    voegFilmToe("Iron Man", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
+    voegFilmToe("Spiderman 3", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
+
 ### --------- Hoofdprogramma -----------------
-maakHoofdTabelAan()
 maakOndertitelTabelAan()
-
-voegFilmToe("Deadpool & Wolverine", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
-voegFilmToe("Logan", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
-voegFilmToe("Iron Man", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
-voegFilmToe("Spiderman 3", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
-
-
+maakHoofdTabelAan()
+voegAlleFilmsToe()
