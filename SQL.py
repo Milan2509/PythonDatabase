@@ -18,56 +18,56 @@ def maakOndertitelTabelAan():
     """)
 
 def maakHoofdTabelAan():
-    # Maak een nieuwe tabel met 3 kolommen: id, naam, prijs
+    # Maak een nieuwe tabel met 3 kolommen: id, naam, prijs ondertitelID INTEGER,
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS tbl_films(
         filmID INTEGER PRIMARY KEY AUTOINCREMENT,
-        ondertitelID INTEGER,
         titel TEXT NOT NULL UNIQUE,
         genre TEXT NOT NULL,
         studio TEXT NOT NULL,
         taal TEXT NOT NULL,
         lengte INTEGER NOT NULL,
-        trailer TEXT NOT NULL
+        trailer TEXT NOT NULL,
+        ondertitels JSON NOT NULL
         );
     """)
     print("Tabel 'tbl_films' aangemaakt.")
 
-def voegFilmToe(titel:str, genre:str, studio:str, taal:str, lengte:str, trailer:str, heeft_engels:bool, heeft_nederlands:bool, heeft_spaans:bool):
+def voegFilmToe(titel:str, genre:str, studio:str, taal:str, lengte:str, trailer:str, ondertitels:str):
     print("Begonnen met Film ", titel, " Toevoegen")
     
     #Maakt van de booleans een bit (int)
-    if type(heeft_engels) == bool and type(heeft_nederlands) == bool and type(heeft_spaans) == bool:
-        heeft_engels = 0 if heeft_engels == False else 0
-        heeft_nederlands = 0 if heeft_nederlands == False else 0
-        heeft_spaans = 0 if heeft_spaans == False else 0
-    
-        cursor.execute("SELECT titel FROM tbl_films")
-        data = cursor.fetchall()
+    # if type(heeft_engels) == bool and type(heeft_nederlands) == bool and type(heeft_spaans) == bool:
+    #     heeft_engels = 0 if heeft_engels == False else 0
+    #     heeft_nederlands = 0 if heeft_nederlands == False else 0
+    #     heeft_spaans = 0 if heeft_spaans == False else 0
 
-        #for loop die checkt of de titel al bestaat in de database
-        db_heeft_titel = False
-        for i in range(len(data)):
-            if str(data[i]) == "('" + titel + "',)":
-                db_heeft_titel = True
-                continue #Gaat verder uit de for loop naar het volgende if statement (if(db_heeft_titel))
+    cursor.execute("SELECT titel FROM tbl_films")
+    data = cursor.fetchall()
+
+    #for loop die checkt of de titel al bestaat in de database
+    db_heeft_titel = False
+    for i in range(len(data)):
+        if str(data[i]) == "('" + titel + "',)":
+            db_heeft_titel = True
+            continue #Gaat verder uit de for loop naar het volgende if statement (if(db_heeft_titel))
             
         
-        if(db_heeft_titel):
-            print("Kan ", titel, " Niet Toevoegen: Bestaat Al!")
-            
-        else:
-            # voegt de ondertiteling talen toe aan de database
-            cursor.execute("INSERT INTO tbl_ondertitels VALUES(NULL, ?, ?, ?)", (heeft_engels, heeft_nederlands, heeft_spaans))
-            
-            ondertitel_tbl_link = cursor.lastrowid
-            
-            cursor.execute("INSERT INTO tbl_films VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)", (ondertitel_tbl_link, titel, genre, studio, taal, lengte, trailer))
-            db.commit()  # gegevens naar de database wegschrijven
-            print("Film ", titel, " Succesvol Toegevoegd")
+    if(db_heeft_titel):
+        print("Kan ", titel, " Niet Toevoegen: Bestaat Al!")
             
     else:
-        print('Invalide Ondertitel Input! Needs typeof(bool)')
+        # voegt de ondertiteling talen toe aan de database
+        # cursor.execute("INSERT INTO tbl_ondertitels VALUES(NULL, ?, ?, ?)", (heeft_engels, heeft_nederlands, heeft_spaans))
+        
+        # ondertitel_tbl_link = cursor.lastrowid
+        
+        cursor.execute("INSERT INTO tbl_films VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)", (titel, genre, studio, taal, lengte, trailer, '[' + ondertitels +']'))
+        db.commit()  # gegevens naar de database wegschrijven
+        print("Film ", titel, " Succesvol Toegevoegd")
+            
+    # else:
+    #     print('Invalide Ondertitel Input! Needs typeof(bool)')
 
 #class
 
@@ -107,11 +107,16 @@ class VraagFilmDataOp():
         resultaat = cursor.fetchall()
         return resultaat
 
+    def vraagFilmOndertitelingOp(ID:int):
+        cursor.execute("SELECT ondertitels FROM tbl_films WHERE filmID = ?", (ID))
+        resultaat = cursor.fetchall()
+        return resultaat
+    
 def voegAlleFilmsToe():
-    voegFilmToe("Deadpool & Wolverine", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
-    voegFilmToe("Logan", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
-    voegFilmToe("Iron Man", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
-    voegFilmToe("Spiderman 3", "Actie", "Disney", "Engels", "300", "youtube", True, False, True)
+    voegFilmToe("Deadpool & Wolverine", "Actie", "Disney", "Engels", "300", "youtube", '"Engels", "Spaans", "Afrikaans", "Duits"')
+    voegFilmToe("Logan", "Actie", "Disney", "Engels", "300", "youtube", '"Nederlands"')
+    voegFilmToe("Iron Man", "Actie", "Disney", "Engels", "300", "youtube", '"Engels", "Spaans"')
+    voegFilmToe("Spiderman 3", "Actie", "Disney", "Engels", "300", "youtube", '"Spaans", "Japans')
 
 ### --------- Hoofdprogramma -----------------
 maakOndertitelTabelAan()
