@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>307</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>10</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="voegFilmT">
+    <item row="0" column="0">
+     <widget class="QTextEdit" name="filmTitelVeld">
+      <property name="placeholderText">
+       <string>Titel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>270</y>
+     <width>95</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="accepteerFilm">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="accepteerKnop">
+      <property name="text">
+       <string>Voeg Film Toe</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>270</y>
+     <width>95</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="cancelFilm">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="cancelKnop">
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="voegFilmT_2">
+    <item row="0" column="0">
+     <widget class="QTextEdit" name="filmGenreVeld">
+      <property name="placeholderText">
+       <string>Genre</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="voegFilmT_3">
+    <item row="0" column="0">
+     <widget class="QTextEdit" name="filmStudioVeld">
+      <property name="placeholderText">
+       <string>Studio</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_6">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="voegFilmT_4">
+    <item row="0" column="0">
+     <widget class="QTextEdit" name="filmTaalVeld">
+      <property name="placeholderText">
+       <string>Taal</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_7">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>170</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="voegFilmT_5">
+    <item row="1" column="0">
+     <widget class="QLineEdit" name="filmLengteVeld"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_8">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>210</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="voegFilmT_6">
+    <item row="0" column="0">
+     <widget class="QTextEdit" name="filmTrailerVeld">
+      <property name="placeholderText">
+       <string>Trailer (link)</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
