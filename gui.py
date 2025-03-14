@@ -26,11 +26,11 @@ from PySide6.QtCore import QFile, QModelIndex, Qt
 from PySide6.QtGui import QStandardItemModel, QStandardItem, QFont
 
 # Dit is de lijst die we gebruiken om alle film ID's in op te slaan.
-lijst_met_films = list(SQL.VraagFilmDataOp.vraagFilmIDsOp())
+# lijst_met_films = list(SQL.VraagFilmDataOp.vraagFilmIDsOp())
 
 # Met deze functie vragen we de titels van alle films op en voegen we deze toe aan een widget op de GUI.
 def voegFilmsToeAanLijst():
-    for i in lijst_met_films:
+    for i in list(SQL.VraagFilmDataOp.vraagFilmIDsOp()):
         filmTitel = str(SQL.VraagFilmDataOp.vraagFilmTitelOp(i)).strip("[(',)]")
         if str(zoeken.text()).lower() in filmTitel.lower():
             filmItem = QStandardItem(filmTitel)
@@ -101,8 +101,9 @@ second_window = None
 filmLengteVeld = None
 
 def filmDataInDBZetten(titel:str, genre:str, studio:str, taal:str, lengte:int, trailer:str):
-    SQL.VoegFilmDataToe.voegFilmDataToe(titel, genre, studio, taal, lengte, trailer, "")
-
+    SQL.voegFilmToe(titel, genre, studio, taal, lengte, trailer, "")
+    filmModel.clear()
+    voegFilmsToeAanLijst()
     second_window.close()
 
 def voegFilmToeAanDB():
@@ -121,13 +122,17 @@ def voegFilmToeAanDB():
     filmGenreVeld = second_window.findChild(QTextEdit, "filmGenreVeld")
     filmStudioVeld = second_window.findChild(QTextEdit, "filmStudioVeld")
     filmTaalVeld = second_window.findChild(QTextEdit, "filmTaalVeld")
-    filmLengteVeld = second_window.findChild(QLineEdit, "filmlengteVeld")
+    filmLengteVeld = second_window.findChild(QLineEdit, "filmLengteVeld")
     filmTrailerVeld = second_window.findChild(QTextEdit, "filmTrailerVeld")
     
-    
+    cancelKnop = second_window.findChild(QPushButton, "cancelKnop")
+    accepteerKnop = second_window.findChild(QPushButton, "accepteerKnop")
 
     filmLengteVeld.setInputMask("000;-")
     
+    cancelKnop.clicked.connect(lambda: second_window.close())
+    accepteerKnop.clicked.connect(lambda: filmDataInDBZetten(filmTitelVeld.toPlainText(), filmGenreVeld.toPlainText(), filmStudioVeld.toPlainText(), filmTaalVeld.toPlainText(), int(filmLengteVeld.text()), filmTrailerVeld.toPlainText()))
+
     second_window.show()
     
 # Hier definiëren we de font die we gaan gebruiken voor de informatie over de film.
