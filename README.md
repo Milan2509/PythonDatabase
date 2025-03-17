@@ -10,5 +10,5 @@ We hebben PyQt gebruikt for de GUI. Dit zit niet bij Python ingebouwd dus het is
 - Studio
 - Taal
 - Lengte
-- Taal
+- Trailer
 - Ondertitels
