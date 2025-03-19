@@ -6,17 +6,6 @@ with sqlite3.connect("FilmDatabase.db") as db:
     cursor = db.cursor()
 
 ### --------- Functie definities -----------------
-
-def maakOndertitelTabelAan():
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS tbl_ondertitels(
-        ondertitelID INTEGER PRIMARY KEY AUTOINCREMENT,
-        engels BIT NOT NULL,
-        nederlands BIT NOT NULL,
-        spaans BIT NOT NULL
-    );
-    """)
-
 def maakHoofdTabelAan():
     # Maak een nieuwe tabel met 3 kolommen: id, naam, prijs ondertitelID INTEGER,
     cursor.execute("""
@@ -33,15 +22,15 @@ def maakHoofdTabelAan():
     """)
     print("Tabel 'tbl_films' aangemaakt.")
 
+# met deze functie kan je een film verwijderen uit de database, gebaseerd op de filmID
+def verwijderFilm(ID:int):
+    cursor.execute("DELETE FROM tbl_films WHERE filmID = ?", (ID,))
+    db.commit()
+
+# met deze functie kan je een film toevoegen aan de database
 def voegFilmToe(titel:str, genre:str, studio:str, taal:str, lengte:str, trailer:str, ondertitels:str):
     print("Begonnen met Film ", titel, " Toevoegen")
     
-    #Maakt van de booleans een bit (int)
-    # if type(heeft_engels) == bool and type(heeft_nederlands) == bool and type(heeft_spaans) == bool:
-    #     heeft_engels = 0 if heeft_engels == False else 0
-    #     heeft_nederlands = 0 if heeft_nederlands == False else 0
-    #     heeft_spaans = 0 if heeft_spaans == False else 0
-
     cursor.execute("SELECT titel FROM tbl_films")
     data = cursor.fetchall()
 
@@ -50,75 +39,73 @@ def voegFilmToe(titel:str, genre:str, studio:str, taal:str, lengte:str, trailer:
     for i in range(len(data)):
         if str(data[i]) == "('" + titel + "',)":
             db_heeft_titel = True
-            continue #Gaat verder uit de for loop naar het volgende if statement (if(db_heeft_titel))
-            
-        
+            continue #Gaat verder uit de for loop naar het volgende if statement: if(db_heeft_titel), zodat de for loop niet verder gaat met checken
+    
+    # if statement die checkt of de titel al bestaat in de database
     if(db_heeft_titel):
-        print("Kan ", titel, " Niet Toevoegen: Bestaat Al!")
-            
-    else:
-        # voegt de ondertiteling talen toe aan de database
-        # cursor.execute("INSERT INTO tbl_ondertitels VALUES(NULL, ?, ?, ?)", (heeft_engels, heeft_nederlands, heeft_spaans))
-        
-        # ondertitel_tbl_link = cursor.lastrowid
-        
+        print("Kan ", titel, " Niet Toevoegen: Bestaat Al!")   
+    else:     
         cursor.execute("INSERT INTO tbl_films VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)", (titel, genre, studio, taal, lengte, trailer, '[' + ondertitels +']'))
         db.commit()  # gegevens naar de database wegschrijven
         print("Film ", titel, " Succesvol Toegevoegd")
-            
-    # else:
-    #     print('Invalide Ondertitel Input! Needs typeof(bool)')
 
-#class
-
+# in deze class worden alle functies gemaakt die data uit de database halen
 class VraagFilmDataOp():
+    # vraagt alle filmID's op en returned deze
     def vraagFilmIDsOp():
         cursor.execute("SELECT filmID FROM tbl_films")
         resultaat = cursor.fetchall()
         return resultaat
-
+    # vraagt alle titels op en returned deze
     def vraagFilmTitelOp(ID:int):
         cursor.execute("SELECT titel FROM tbl_films WHERE filmID = ?", (ID))
         resultaat = cursor.fetchall()
         return resultaat
-
+    # vraagt alle genres op en returned deze
     def vraagFilmGenreOp(ID:int):
         cursor.execute("SELECT genre FROM tbl_films WHERE filmID = ?", (ID))
         resultaat = cursor.fetchall()
         return resultaat
-
+    # vraagt alle studios op en returned deze
     def vraagFilmStudioOp(ID:int):
         cursor.execute("SELECT studio FROM tbl_films WHERE filmID = ?", (ID))
         resultaat = cursor.fetchall()
         return resultaat
-
+    # vraagt alle talen op en returned deze
     def vraagFilmTaalOp(ID:int):
         cursor.execute("SELECT taal FROM tbl_films WHERE filmID = ?", (ID))
         resultaat = cursor.fetchall()
         return resultaat
-
+    # vraagt alle lengtes op en returned deze
     def vraagFilmLengteOp(ID:int):
         cursor.execute("SELECT lengte FROM tbl_films WHERE filmID = ?", (ID))
         resultaat = cursor.fetchall()
         return resultaat
-
+    # vraagt alle trailers op en returned deze
     def vraagFilmTrailerOp(ID:int):
         cursor.execute("SELECT trailer FROM tbl_films WHERE filmID = ?", (ID))
         resultaat = cursor.fetchall()
         return resultaat
-
+    # vraagt alle ondertitelingen op en returned deze
     def vraagFilmOndertitelingOp(ID:int):
         cursor.execute("SELECT ondertitels FROM tbl_films WHERE filmID = ?", (ID))
         resultaat = cursor.fetchall()
         return resultaat
-    
-def voegAlleFilmsToe():
-    voegFilmToe("Deadpool & Wolverine", "Actie", "Disney", "Engels", "300", "youtube", '"Engels", "Spaans", "Afrikaans", "Duits"')
-    voegFilmToe("Logan", "Actie", "Disney", "Engels", "300", "youtube", '"Nederlands"')
-    voegFilmToe("Iron Man", "Actie", "Disney", "Engels", "300", "youtube", '"Engels", "Spaans"')
-    voegFilmToe("Spiderman 3", "Actie", "Disney", "Engels", "300", "youtube", '"Spaans", "Japans')
 
+# voegt de films toe aan de database
+def voegAlleFilmsToe():
+    cursor.execute("SELECT COUNT(*) FROM tbl_films") # telt het aantal films in de database
+    count = cursor.fetchone()[0] # zet het aantal films in de variabele count, fetchone haalt de eerste rij uit de query met de type tuple. De [0] zorgt er voor dat het eerste element uit de tuple word gehaald. Dit is nodig omdat Python bijna niks kan met tuples.
+    
+    # als er nog geen films in de database staan, worden de films toegevoegd
+    if count == 0:    
+        voegFilmToe("Deadpool & Wolverine", "Actie Comedy", "Disney", "Engels", "128", "https://www.youtube.com/watch?v=73_1biulkYk", '"Engels", "Spaans", "Duits"')
+        voegFilmToe("Logan", "Actie", "Fox Studios", "Engels", "137", "https://www.youtube.com/watch?v=Div0iP65aZo", '"Nederlands"')
+        voegFilmToe("Iron Man", "Actie", "Marvel Studios", "Engels", "126", "https://www.youtube.com/watch?v=X9Twk9v2g_0", '"Engels", "Spaans"')
+        voegFilmToe("Spiderman 3", "Actie", "Sony Pictures Entertainment", "Engels", "148", "https://www.youtube.com/watch?v=JfVOs4VSpmA", '"Spaans", "Japans"')
+    # als er al films in de database staan, wordt er een melding gegeven
+    else:
+        print("Voorbeeld films worden niet toegevoegd, omdat er al films in de database staan.")
 ### --------- Hoofdprogramma -----------------
-maakOndertitelTabelAan()
 maakHoofdTabelAan()
 voegAlleFilmsToe()
