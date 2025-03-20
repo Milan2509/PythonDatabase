@@ -33,14 +33,14 @@ def voegFilmsToeAanLijst():
     # Eerst halen we alle films op uit de database.
     # De film ID wordt opgeslalgen in de "i" variabele
     for i in list(SQL.VraagFilmDataOp.vraagFilmIDsOp()):
-        filmTitel = str(SQL.VraagFilmDataOp.vraagFilmTitelOp(i)).strip("[(',)]")
+        film_titel = str(SQL.VraagFilmDataOp.vraagfilm_titelOp(i)).strip("[(',)]")
         # Hier kijken we of de zoektext voorkomt in de titel van de film.
-        if str(zoeken.text()).lower() in filmTitel.lower():
+        if str(zoeken.text()).lower() in film_titel.lower():
             # Hier maken we een item om aan de film lijst toe te voegen.
-            filmItem = QStandardItem(filmTitel)
-            filmItem.setEditable(False)
-            filmItem.setData(i, Qt.UserRole)
-            filmModel.appendRow(filmItem)
+            film_item = QStandardItem(film_titel)
+            film_item.setEditable(False)
+            film_item.setData(i, Qt.UserRole)
+            film_model.appendRow(film_item)
 
 # Deze variabele houden we bij zodat we de ondertitels van een film kunnen toevoegen aan de database.
 ondertitels = ""
@@ -67,48 +67,48 @@ def voegToeAanTabel(tekst:str, tabel:QTableWidget):
 # Dit zorgt ervoor dat het programma dynamischer aanvoelt en beter te gebruiken is.
 def zoekFilm():
     # Eerst verwijderen we alle films uit de widget om zo te voorkomen dat dezelfde film meerdere keren wordt toegevoegd.
-    filmModel.clear()
+    film_model.clear()
     # Nu roepen we de voegFilmsToeAanLijst functie aan om zo de films die overeenkomen met de zoekcriteria weer toe te voegen.
     voegFilmsToeAanLijst()
 
 # Deze functie wordt aangeroepen wanneer je een film uit de lijst met gevonden films selecteert, wanneer deze functie wordt aangeroepen komt er aan de rechterkant van het scherm een lijst met informatie over de film.
 def filmGeselecteerd(index: QModelIndex):
     # Eerst maken we de lijst aan de rechterkant leeg zodat er niet 2 dezelfde films komen te staan.
-    geselecteerdeFilmModel.clear()
+    geselecteerdefilm_model.clear()
     # Nu geven we de geselecteerde film een unieke ID zodat we de juiste data kunnen opvragen.
     ID = index.data(Qt.UserRole)
 
     # Nu maken we voor elk stukje informatie over de film een item zodat we deze aan de geselecteerde film kunnen toevoegen.
-    filmTitel = QStandardItem(str(SQL.VraagFilmDataOp.vraagFilmTitelOp(ID)).strip("[(',)]"))
-    filmStudio = QStandardItem("Studio: " + str(SQL.VraagFilmDataOp.vraagFilmStudioOp(ID)).strip("[(',)]"))
-    filmTaal = QStandardItem("Taal: " + str(SQL.VraagFilmDataOp.vraagFilmTaalOp(ID)).strip("[(',)]"))
-    filmLengte = QStandardItem("Duur: " + str(SQL.VraagFilmDataOp.vraagFilmLengteOp(ID)).strip("[(',)]"))
-    filmTrailer = QStandardItem("Trailer: " + str(SQL.VraagFilmDataOp.vraagFilmTrailerOp(ID)).strip("[(',)]"))
-    filmOnderTiteling = QStandardItem("Ondertiteling: " + str(SQL.VraagFilmDataOp.vraagFilmOndertitelingOp(ID)).strip("[(',)]").replace('"', ""))
-    filmGenre = QStandardItem("Genre: " + str(SQL.VraagFilmDataOp.vraagFilmGenreOp(ID)).strip("[(',)]"))
+    film_titel = QStandardItem(str(SQL.VraagFilmDataOp.vraagFilmTitelOp(ID)).strip("[(',)]"))
+    film_studio = QStandardItem("Studio: " + str(SQL.VraagFilmDataOp.vraagFilmStudioOp(ID)).strip("[(',)]"))
+    film_taal = QStandardItem("Taal: " + str(SQL.VraagFilmDataOp.vraagFilmTaalOp(ID)).strip("[(',)]"))
+    film_lengte = QStandardItem("Duur: " + str(SQL.VraagFilmDataOp.vraagFilmTaalOp(ID)).strip("[(',)]"))
+    film_trailer = QStandardItem("Trailer: " + str(SQL.VraagFilmDataOp.vraagFilmLengteOp(ID)).strip("[(',)]"))
+    film_ondertiteling = QStandardItem("Ondertiteling: " + str(SQL.VraagFilmDataOp.vraagFilmOndertitelingOp(ID)).strip("[(',)]").replace('"', ""))
+    film_genre = QStandardItem("Genre: " + str(SQL.VraagFilmDataOp.vraagFilmGenreOp(ID)).strip("[(',)]"))
 
     # Nu veranderen we de font van elk van de items zodat de tekst kleiner is en het er beter uitziet.
-    filmGenre.setFont(filmDetailFont)
-    filmStudio.setFont(filmDetailFont)
-    filmTaal.setFont(filmDetailFont)
-    filmLengte.setFont(filmDetailFont)
-    filmTrailer.setFont(filmDetailFont)
-    filmOnderTiteling.setFont(filmDetailFont)
+    film_genre.setFont(film_detail_font)
+    film_studio.setFont(film_detail_font)
+    film_taal.setFont(film_detail_font)
+    film_lengte.setFont(film_detail_font)
+    film_trailer.setFont(film_detail_font)
+    film_ondertiteling.setFont(film_detail_font)
 
     # Nu voegen we de film informatie aan de geselecteerde film toe.
-    filmTitel.setChild(0, filmGenre)
-    filmTitel.setChild(1, filmStudio)
-    filmTitel.setChild(2, filmTaal)
-    filmTitel.setChild(3, filmLengte)
-    filmTitel.setChild(4, filmTrailer)
-    filmTitel.setChild(5, filmOnderTiteling)
+    film_titel.setChild(0, film_genre)
+    film_titel.setChild(1, film_studio)
+    film_titel.setChild(2, film_taal)
+    film_titel.setChild(3, film_lengte)
+    film_titel.setChild(4, film_trailer)
+    film_titel.setChild(5, film_ondertiteling)
 
     # Met setEditable(False) zorgen we ervoor dat je de titel niet kan veranderen door erop te dubbelklikken.
-    filmTitel.setEditable(False)
+    film_titel.setEditable(False)
     # Nu voegen we de geselecteerde film toe aan de lijstwidget aan de rechterkant.
-    geselecteerdeFilmModel.appendRow(filmTitel)
+    geselecteerdefilm_model.appendRow(film_titel)
     # Nu klappen we de lijst ook uit zodat je de informatie ook daadwerkelijk kan zien. :)
-    geselecteerdeFilmLijst.expandAll()
+    geselecteerde_film_lijst.expandAll()
 
 # Hier definiëren we een variabele voor de applicatie.
 app = QApplication(sys.argv)
@@ -123,8 +123,8 @@ ui_file.close()
 
 # Variabele om het tweede scherm bij te houden
 second_window = None
-filmLengteVeld = None
-filmOndertitelingTabel = None
+film_lengte_veld = None
+film_ondertiteling_tabel = None
 
 # Hier definiëren we de functie die wordt aangeroepen wanneer je een film toevoegt.
 def filmDataInDBZetten(titel:str, genre:str, studio:str, taal:str, lengte:int, trailer:str, ondertitels:str):
@@ -146,7 +146,7 @@ def filmDataInDBZetten(titel:str, genre:str, studio:str, taal:str, lengte:int, t
     else:
         # Hier voegen we de film toe aan de database.
         SQL.voegFilmToe(titel, genre, studio, taal, lengte, trailer, ondertitels)
-        filmModel.clear()
+        film_model.clear()
         voegFilmsToeAanLijst()
         second_window.close()
 
@@ -155,7 +155,7 @@ def filmUitDBVerwijderen(ID):
     # Hier verwijderen we de film uit de database.
     SQL.verwijderFilm(ID)
     # Hier verwijderen we de film uit de lijst met films omdat er anders dubbele films in komen te staan.
-    filmModel.clear()
+    film_model.clear()
     # Hier voegen we de films weer toe aan de lijst zodat je de films kan zien.
     voegFilmsToeAanLijst()
 
@@ -164,8 +164,8 @@ def voegFilmToeAanDB():
     # Hier koppelen we de locale variable aan de globale variabelen. 
     # Dit is perse nodig omdat anders de variabelen niet in andere en deze functie correct gebruikt kunnen worden.
     global second_window
-    global filmLengteVeld
-    global filmOndertitelingTabel
+    global film_lengte_veld
+    global film_ondertiteling_tabel
     
     # Hier definieren we de gui popup file en openen we deze.
     ui_file_2 = QFile("gui_popup.ui")
@@ -179,63 +179,63 @@ def voegFilmToeAanDB():
     ui_file_2.close()
     
     # Hier koppelen we de gui elementen aan de locale variabelen.
-    filmTitelVeld = second_window.findChild(QTextEdit, "filmTitelVeld")
-    filmGenreVeld = second_window.findChild(QTextEdit, "filmGenreVeld")
-    filmStudioVeld = second_window.findChild(QTextEdit, "filmStudioVeld")
-    filmTaalVeld = second_window.findChild(QTextEdit, "filmTaalVeld")
-    filmLengteVeld = second_window.findChild(QLineEdit, "filmLengteVeld")
-    filmTrailerVeld = second_window.findChild(QTextEdit, "filmTrailerVeld")
-    filmOndertitelingVeld = second_window.findChild(QTextEdit, "filmOndertitelingVeld")
+    film_titel_veld = second_window.findChild(QTextEdit, "film_titel_veld")
+    film_genre_veld = second_window.findChild(QTextEdit, "film_genre_veld")
+    film_studio_veld = second_window.findChild(QTextEdit, "film_studio_veld")
+    film_taal_veld = second_window.findChild(QTextEdit, "film_taal_veld")
+    film_lengte_veld = second_window.findChild(QLineEdit, "film_lengte_veld")
+    film_trailer_veld = second_window.findChild(QTextEdit, "film_trailer_veld")
+    film_ondertiteling_veld = second_window.findChild(QTextEdit, "film_ondertiteling_veld")
     
     cancelKnop = second_window.findChild(QPushButton, "cancelKnop")
     accepteerKnop = second_window.findChild(QPushButton, "accepteerKnop")
-    filmOndertitelingTabel = second_window.findChild(QTableWidget, "filmOndertitelingTabel")
-    filmOndertitelingKnop = second_window.findChild(QPushButton, "voegOndertitelingToeKnop")
+    film_ondertiteling_tabel = second_window.findChild(QTableWidget, "film_ondertiteling_tabel")
+    film_ondertitelingKnop = second_window.findChild(QPushButton, "voegOndertitelingToeKnop")
 
     # Hier zorgen we ervoor dat de lengte van de film alleen maar cijfers kan bevatten.
-    filmLengteVeld.setInputMask("000;")
+    film_lengte_veld.setInputMask("000;")
     
     # Hier voegen we de ondertiteling toe aan de tabel.
-    filmOndertitelingKnop.clicked.connect(lambda: voegToeAanTabel(filmOndertitelingVeld.toPlainText(), filmOndertitelingTabel))    
+    film_ondertitelingKnop.clicked.connect(lambda: voegToeAanTabel(film_ondertiteling_veld.toPlainText(), film_ondertiteling_tabel))    
     # Hier zorgen we ervoor dat de knoppen werken.
     cancelKnop.clicked.connect(lambda: second_window.close())
-    accepteerKnop.clicked.connect(lambda: filmDataInDBZetten(filmTitelVeld.toPlainText(), filmGenreVeld.toPlainText(), filmStudioVeld.toPlainText(), filmTaalVeld.toPlainText(), filmLengteVeld.text(), filmTrailerVeld.toPlainText(), ondertitels))
+    accepteerKnop.clicked.connect(lambda: filmDataInDBZetten(film_titel_veld.toPlainText(), film_genre_veld.toPlainText(), film_studio_veld.toPlainText(), film_taal_veld.toPlainText(), film_lengte_veld.text(), film_trailer_veld.toPlainText(), ondertitels))
 
     # Hier zorgen we ervoor dat het scherm ook te zien is.
     second_window.show()
     
 # Hier definiëren we de font die we gaan gebruiken voor de informatie over de film.
-filmDetailFont = QFont(QFont.defaultFamily(QFont()), 10)
+film_detail_font = QFont(QFont.defaultFamily(QFont()), 10)
 
 # Hier koppelen we de zoek widget van de UI aan onze Python code door het met een variabele te verbinden.
 zoeken = window.findChild(QLineEdit, "zoekFilm")
 # Hier doen we hetzelfde maar dan met de lijst met film resultaten.
-filmLijst = window.findChild(QListView, "filmLijst")
+film_lijst = window.findChild(QListView, "FilmLijst")
 # Hier maken we alvast een model aan voor de lijst met film resultaten.
-filmModel = QStandardItemModel()
+film_model = QStandardItemModel()
 # Hier definieren we de geselecteerde film lijst (de rechter blok) en koppelen we het aan het ui element
-geselecteerdeFilmLijst = window.findChild(QTreeView, "geselecteerdeFilmLijst")
+geselecteerde_film_lijst = window.findChild(QTreeView, "geselecteerdeFilmLijst")
 # Hier definieren we de voeg film toe knop en koppelen we het aan het ui element
-voegFilmToeKnop = window.findChild(QPushButton, "voegFilmToeKnop")
+voeg_film_toe_knop = window.findChild(QPushButton, "voegFilmToeKnop")
 # Hier definieren we de verwijder film knop en koppelen we het aan het ui element
 verwijder_film_knop = window.findChild(QPushButton, "verwijderFilmKnop")
 
 # Hier maken we alvast een model aan voor de film info.
-geselecteerdeFilmModel = QStandardItemModel()
+geselecteerdefilm_model = QStandardItemModel()
 
 # Hier verbinden we de zoekFilm() functie aan de zoek widget zodat hij telkens wanneer je typt de films laat zien die overeenkomen met wat je typt.
 zoeken.textChanged.connect(zoekFilm) 
-# Hier verbinden we de filmGeselecteerd() functie aan de filmlijst zodat we weten wanneer je op de film klikt.
-filmLijst.clicked.connect(filmGeselecteerd) 
+# Hier verbinden we de filmGeselecteerd() functie aan de film_lijst zodat we weten wanneer je op de film klikt.
+film_lijst.clicked.connect(filmGeselecteerd) 
 # Hier voegen we de functie toe aan de voeg .
-voegFilmToeKnop.clicked.connect(voegFilmToeAanDB)
+voeg_film_toe_knop.clicked.connect(voegFilmToeAanDB)
 # Hier voegen we de functie toe aan de verwijder film knop.
 # we gebruiken hier lambda omdat we een argument mee willen geven aan de functie.
-verwijder_film_knop.clicked.connect(lambda: filmUitDBVerwijderen(filmLijst.currentIndex().data(Qt.UserRole)[0]))
-# Hier voegen we het film model aan de filmlijst toe.
-filmLijst.setModel(filmModel)
-# Hier voegen we het geselecteerde filmmodel toe aan de geselecteerde film lijst.
-geselecteerdeFilmLijst.setModel(geselecteerdeFilmModel)
+verwijder_film_knop.clicked.connect(lambda: filmUitDBVerwijderen(film_lijst.currentIndex().data(Qt.UserRole)[0]))
+# Hier voegen we het film model aan de film_lijst toe.
+film_lijst.setModel(film_model)
+# Hier voegen we het geselecteerde film_model toe aan de geselecteerde film lijst.
+geselecteerde_film_lijst.setModel(geselecteerdefilm_model)
 # Hier voegen we de films toe aan de lijst zodat je alvast de films kan zien.
 voegFilmsToeAanLijst()
 
