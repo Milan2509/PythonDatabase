@@ -80,12 +80,12 @@ def filmGeselecteerd(index: QModelIndex):
 
     # Nu maken we voor elk stukje informatie over de film een item zodat we deze aan de geselecteerde film kunnen toevoegen.
     filmTitel = QStandardItem(str(SQL.VraagFilmDataOp.vraagFilmTitelOp(ID)).strip("[(',)]"))
-    filmGenre = QStandardItem("Genre: " + str(SQL.VraagFilmDataOp.vraagFilmGenreOp(ID)).strip("[(',)]"))
     filmStudio = QStandardItem("Studio: " + str(SQL.VraagFilmDataOp.vraagFilmStudioOp(ID)).strip("[(',)]"))
     filmTaal = QStandardItem("Taal: " + str(SQL.VraagFilmDataOp.vraagFilmTaalOp(ID)).strip("[(',)]"))
     filmLengte = QStandardItem("Duur: " + str(SQL.VraagFilmDataOp.vraagFilmLengteOp(ID)).strip("[(',)]"))
     filmTrailer = QStandardItem("Trailer: " + str(SQL.VraagFilmDataOp.vraagFilmTrailerOp(ID)).strip("[(',)]"))
     filmOnderTiteling = QStandardItem("Ondertiteling: " + str(SQL.VraagFilmDataOp.vraagFilmOndertitelingOp(ID)).strip("[(',)]").replace('"', ""))
+    filmGenre = QStandardItem("Genre: " + str(SQL.VraagFilmDataOp.vraagFilmGenreOp(ID)).strip("[(',)]"))
 
     # Nu veranderen we de font van elk van de items zodat de tekst kleiner is en het er beter uitziet.
     filmGenre.setFont(filmDetailFont)
@@ -137,12 +137,12 @@ def filmDataInDBZetten(titel:str, genre:str, studio:str, taal:str, lengte:int, t
     # Hier kijken we of alle velden zijn ingevuld.
     if titel == "" or genre == "" or studio == "" or taal == "" or lengte == 0 or trailer == "" or ondertitels == "":
         # Hier geven we een foutmelding als niet alle velden zijn ingevuld.
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Critical)
-        msg.setText("Niet alle velden zijn ingevuld!")
-        msg.setInformativeText('Vul alle velden in om een film toe te voegen!')
-        msg.setWindowTitle("Fout melding!")
-        msg.exec()
+        msg = QMessageBox() # hier koppelt de variabele msg aan de QMessageBox class
+        msg.setIcon(QMessageBox.Critical) # hier zetten we de icoon van de messagebox
+        msg.setText("Niet alle velden zijn ingevuld!") # hier zetten we de tekst van de messagebox
+        msg.setInformativeText('Vul alle velden in om een film toe te voegen!') # hier zetten we de extra informatie van de messagebox
+        msg.setWindowTitle("Fout melding!") # hier zetten we de titel van de messagebox
+        msg.exec() # hier laten we de messagebox zien
     else:
         # Hier voegen we de film toe aan de database.
         SQL.voegFilmToe(titel, genre, studio, taal, lengte, trailer, ondertitels)
@@ -151,7 +151,7 @@ def filmDataInDBZetten(titel:str, genre:str, studio:str, taal:str, lengte:int, t
         second_window.close()
 
 # Hier definiëren we de functie die wordt aangeroepen wanneer je een film uit de database verwijdert.
-def filmUitDBVerwijderen(ID:int):
+def filmUitDBVerwijderen(ID):
     # Hier verwijderen we de film uit de database.
     SQL.verwijderFilm(ID)
     # Hier verwijderen we de film uit de lijst met films omdat er anders dubbele films in komen te staan.
@@ -161,7 +161,8 @@ def filmUitDBVerwijderen(ID:int):
 
 # Hier definiëren we de functie die wordt aangeroepen wanneer je op de voeg film toe knop drukt.
 def voegFilmToeAanDB():
-    # Hier koppelen we de locale variable aan de globale variabelen.
+    # Hier koppelen we de locale variable aan de globale variabelen. 
+    # Dit is perse nodig omdat anders de variabelen niet in andere en deze functie correct gebruikt kunnen worden.
     global second_window
     global filmLengteVeld
     global filmOndertitelingTabel
@@ -229,12 +230,12 @@ filmLijst.clicked.connect(filmGeselecteerd)
 # Hier voegen we de functie toe aan de voeg .
 voegFilmToeKnop.clicked.connect(voegFilmToeAanDB)
 # Hier voegen we de functie toe aan de verwijder film knop.
-verwijder_film_knop.clicked.connect(lambda: filmUitDBVerwijderen(int(filmLijst.currentIndex().data(Qt.UserRole)[0])))
+# we gebruiken hier lambda omdat we een argument mee willen geven aan de functie.
+verwijder_film_knop.clicked.connect(lambda: filmUitDBVerwijderen(filmLijst.currentIndex().data(Qt.UserRole)[0]))
 # Hier voegen we het film model aan de filmlijst toe.
 filmLijst.setModel(filmModel)
 # Hier voegen we het geselecteerde filmmodel toe aan de geselecteerde film lijst.
 geselecteerdeFilmLijst.setModel(geselecteerdeFilmModel)
-
 # Hier voegen we de films toe aan de lijst zodat je alvast de films kan zien.
 voegFilmsToeAanLijst()
 
