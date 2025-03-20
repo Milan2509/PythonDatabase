@@ -33,7 +33,7 @@ def voegFilmsToeAanLijst():
     # Eerst halen we alle films op uit de database.
     # De film ID wordt opgeslalgen in de "i" variabele
     for i in list(SQL.VraagFilmDataOp.vraagFilmIDsOp()):
-        film_titel = str(SQL.VraagFilmDataOp.vraagfilm_titelOp(i)).strip("[(',)]")
+        film_titel = str(SQL.VraagFilmDataOp.vraagFilmTitelOp(i)).strip("[(',)]")
         # Hier kijken we of de zoektext voorkomt in de titel van de film.
         if str(zoeken.text()).lower() in film_titel.lower():
             # Hier maken we een item om aan de film lijst toe te voegen.
@@ -210,7 +210,7 @@ film_detail_font = QFont(QFont.defaultFamily(QFont()), 10)
 # Hier koppelen we de zoek widget van de UI aan onze Python code door het met een variabele te verbinden.
 zoeken = window.findChild(QLineEdit, "zoekFilm")
 # Hier doen we hetzelfde maar dan met de lijst met film resultaten.
-film_lijst = window.findChild(QListView, "FilmLijst")
+film_lijst = window.findChild(QListView, "filmLijst")
 # Hier maken we alvast een model aan voor de lijst met film resultaten.
 film_model = QStandardItemModel()
 # Hier definieren we de geselecteerde film lijst (de rechter blok) en koppelen we het aan het ui element
