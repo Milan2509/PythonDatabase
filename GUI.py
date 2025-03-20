@@ -179,13 +179,17 @@ def voegFilmToeAanDB():
     ui_file_2.close()
     
     # Hier koppelen we de gui elementen aan de locale variabelen.
-    film_titel_veld = second_window.findChild(QTextEdit, "filmTitelveld")
+    film_titel_veld = second_window.findChild(QTextEdit, "filmTitelVeld")
     film_genre_veld = second_window.findChild(QTextEdit, "filmGenreVeld")
     film_studio_veld = second_window.findChild(QTextEdit, "filmStudioVeld")
     film_taal_veld = second_window.findChild(QTextEdit, "filmTaalVeld")
     film_lengte_veld = second_window.findChild(QLineEdit, "filmLengteVeld")
     film_trailer_veld = second_window.findChild(QTextEdit, "filmTrailerVeld")
     film_ondertiteling_veld = second_window.findChild(QTextEdit, "filmOndertitelingVeld")
+
+    # Raise an error if any widget is not found
+    if None in [film_titel_veld, film_genre_veld, film_studio_veld, film_taal_veld, film_lengte_veld, film_trailer_veld, film_ondertiteling_veld]:
+        raise ValueError("One or more widgets were not found in the UI file. Check the widget names.")
     
     cancelKnop = second_window.findChild(QPushButton, "cancelKnop")
     accepteerKnop = second_window.findChild(QPushButton, "accepteerKnop")
