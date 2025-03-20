@@ -179,17 +179,17 @@ def voegFilmToeAanDB():
     ui_file_2.close()
     
     # Hier koppelen we de gui elementen aan de locale variabelen.
-    film_titel_veld = second_window.findChild(QTextEdit, "film_titel_veld")
-    film_genre_veld = second_window.findChild(QTextEdit, "film_genre_veld")
-    film_studio_veld = second_window.findChild(QTextEdit, "film_studio_veld")
-    film_taal_veld = second_window.findChild(QTextEdit, "film_taal_veld")
-    film_lengte_veld = second_window.findChild(QLineEdit, "film_lengte_veld")
-    film_trailer_veld = second_window.findChild(QTextEdit, "film_trailer_veld")
-    film_ondertiteling_veld = second_window.findChild(QTextEdit, "film_ondertiteling_veld")
+    film_titel_veld = second_window.findChild(QTextEdit, "filmTitelveld")
+    film_genre_veld = second_window.findChild(QTextEdit, "filmGenreVeld")
+    film_studio_veld = second_window.findChild(QTextEdit, "filmStudioVeld")
+    film_taal_veld = second_window.findChild(QTextEdit, "filmTaalVeld")
+    film_lengte_veld = second_window.findChild(QLineEdit, "filmLengteVeld")
+    film_trailer_veld = second_window.findChild(QTextEdit, "filmTrailerVeld")
+    film_ondertiteling_veld = second_window.findChild(QTextEdit, "filmOndertitelingVeld")
     
     cancelKnop = second_window.findChild(QPushButton, "cancelKnop")
     accepteerKnop = second_window.findChild(QPushButton, "accepteerKnop")
-    film_ondertiteling_tabel = second_window.findChild(QTableWidget, "film_ondertiteling_tabel")
+    film_ondertiteling_tabel = second_window.findChild(QTableWidget, "filmOndertitelingTabel")
     film_ondertitelingKnop = second_window.findChild(QPushButton, "voegOndertitelingToeKnop")
 
     # Hier zorgen we ervoor dat de lengte van de film alleen maar cijfers kan bevatten.
