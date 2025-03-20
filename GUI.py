@@ -186,10 +186,6 @@ def voegFilmToeAanDB():
     film_lengte_veld = second_window.findChild(QLineEdit, "filmLengteVeld")
     film_trailer_veld = second_window.findChild(QTextEdit, "filmTrailerVeld")
     film_ondertiteling_veld = second_window.findChild(QTextEdit, "filmOndertitelingVeld")
-
-    # Raise an error if any widget is not found
-    if None in [film_titel_veld, film_genre_veld, film_studio_veld, film_taal_veld, film_lengte_veld, film_trailer_veld, film_ondertiteling_veld]:
-        raise ValueError("One or more widgets were not found in the UI file. Check the widget names.")
     
     cancelKnop = second_window.findChild(QPushButton, "cancelKnop")
     accepteerKnop = second_window.findChild(QPushButton, "accepteerKnop")
