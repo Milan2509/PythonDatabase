@@ -2,7 +2,7 @@
 Informatica PO voor SQL & Python
 
 ## Installeren
-We hebben PyQt gebruikt for de GUI. Dit zit niet bij Python ingebouwd dus het is nodig om eerst "pip install PySide6" te runnen in de terminal. Het is hierbij belanrijk dat dit gedaan word in de folder waar het script gedownload is.
+We hebben PyQt gebruikt for de GUI. Dit zit niet bij Python ingebouwd dus het is nodig om eerst "pip install PySide6" te runnen in de terminal.
 
 Voor een uitgebrijde versie check: https://pypi.org/project/PySide6/
 
